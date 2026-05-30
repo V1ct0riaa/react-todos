@@ -1,13 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import CommentIcon from '@mui/icons-material/Comment';
+import List from "@mui/material/List";
+
+import TodoItem from "./TodoItem";
 
 const initialTodos = [
   { id: 1, text: "Walk the Dog", completed: true },
@@ -17,39 +12,19 @@ const initialTodos = [
 ];
 
 export default function TodoList() {
-  const [todos, setTodos] = useState(initialTodos)
-  return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {todos.map(todo => {
-        const labelId = `checkbox-list-label-${todo.id}`;
+  const [todos, setTodos] = useState(initialTodos);
 
-        return (
-          <ListItem
-            key={todo.id}
-            secondaryAction={
-              <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
-              </IconButton>
-            }
-            disablePadding
-          >
-            <ListItemButton role={undefined} dense>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={todo.completed}
-                  tabIndex={-1}
-                  disableRipple
-                  slotProps={{ input: { 'aria-labelledby': labelId } }}
-                />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={todo.text} />
-            </ListItemButton>
-          </ListItem>
-        );
+  const removeTodo = (id) => {
+    setTodos((prevTodos) => prevTodos.filter((t) => t.id !== id));
+  };
+  return (
+    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      {todos.map((todo) => {
+        // to return i can use implicit return (todo) => (<TodoItem...)
+        return <TodoItem todo={todo} key={todo.id} remove={removeTodo} />;
       })}
     </List>
-  )
+  );
 }
 
 // import * as React from 'react';
